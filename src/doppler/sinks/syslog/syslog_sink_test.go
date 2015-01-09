@@ -243,6 +243,13 @@ var _ = Describe("SyslogSink", func() {
 
 		})
 	})
+
+	Describe("Disconnect", func() {
+		It("is idempotent", func() {
+			syslogSink.Disconnect()
+			Expect(syslogSink.Disconnect).NotTo(Panic())
+		})
+	})
 })
 
 type SyslogWriterRecorder struct {
