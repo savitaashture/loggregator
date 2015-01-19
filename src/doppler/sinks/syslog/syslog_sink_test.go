@@ -26,13 +26,19 @@ var _ = Describe("SyslogSink", func() {
 	var inputChan chan *events.Envelope
 
 	closeSysLoggerDoneChan := func() {
+		println("locking: closeSysLoggerDoneChan")
 		mutex.Lock()
+		println("locked: closeSysLoggerDoneChan")
+		defer println("unlcked: closeSysLoggerDoneChan")
 		defer mutex.Unlock()
 		close(sysLoggerDoneChan)
 	}
 
 	newSysLoggerDoneChan := func() {
+		println("locking: newSysLoggerDoneChan")
 		mutex.Lock()
+		println("locked: newSysLoggerDoneChan")
+		defer println("unlcked: newSysLoggerDoneChan")
 		defer mutex.Unlock()
 		sysLoggerDoneChan = make(chan bool)
 	}
@@ -40,14 +46,17 @@ var _ = Describe("SyslogSink", func() {
 	BeforeEach(func() {
 		newSysLoggerDoneChan()
 		sysLogger = NewSyslogWriterRecorder()
-		errorChannel = make(chan *events.Envelope, 10)
+		errorChannel = make(chan *events.Envelope, 100)
 		inputChan = make(chan *events.Envelope)
 
 		errorHandler = func(errorMsg string, appId string, drainUrl string) {
 			logMessage := factories.NewLogMessage(events.LogMessage_ERR, errorMsg, appId, "LGR")
 			envelope, _ := emitter.Wrap(logMessage, "dropsonde-origin")
 
+			println("locking: errorHandler")
 			mutex.Lock()
+			println("locked: errorHandler")
+			defer println("unlcked: errorHandler")
 			defer mutex.Unlock()
 			errorChannel <- envelope
 		}
@@ -56,11 +65,16 @@ var _ = Describe("SyslogSink", func() {
 	})
 
 	AfterEach(func() {
+		println(11)
 		select {
 		case <-sysLoggerDoneChan:
+			println(12)
 		default:
+			println(13)
 			closeSysLoggerDoneChan()
+			println(14)
 		}
+		println(15)
 	})
 
 	Context("when remote syslog server is down", func() {
@@ -104,10 +118,15 @@ var _ = Describe("SyslogSink", func() {
 
 	Context("when remote syslog server is up", func() {
 		BeforeEach(func() {
+			println(30)
 			go func() {
+				println(40)
 				syslogSink.Run(inputChan)
+				println(41)
 				closeSysLoggerDoneChan()
+				println(42)
 			}()
+			println(31)
 		})
 
 		It("sends input messages to the syslog writer", func(done Done) {

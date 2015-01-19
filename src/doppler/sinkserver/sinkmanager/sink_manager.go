@@ -87,6 +87,7 @@ func (sinkManager *SinkManager) RegisterSink(sink sinks.Sink) bool {
 
 	go func() {
 		sink.Run(inputChan)
+		sinkManager.logger.Debugf("SinkManager.RegisterSink: Unregistering sink '%s' since it finished.", sink.Identifier())
 		sinkManager.UnregisterSink(sink)
 	}()
 
@@ -102,6 +103,7 @@ func (sinkManager *SinkManager) UnregisterSink(sink sinks.Sink) {
 	sinkManager.Metrics.Dec(sink)
 
 	if syslogSink, ok := sink.(*syslog.SyslogSink); ok {
+		sinkManager.logger.Debugf("SinkManager.UnregisterSink: disconnecting syslog sink '%s'.", syslogSink.Identifier())
 		syslogSink.Disconnect()
 	}
 
@@ -185,6 +187,7 @@ func (sinkManager *SinkManager) listenForDeletedAppServices(deletedAppServiceCha
 	for appService := range deletedAppServiceChan {
 		syslogSink := sinkManager.sinks.DrainFor(appService.AppId, appService.Url)
 		if syslogSink != nil {
+			sinkManager.logger.Debugf("SinkManager.listenForDeletedAppServices: Removing syslog sink for app '%s' on URL '%s'", appService.AppId, appService.Url)
 			sinkManager.UnregisterSink(syslogSink)
 		}
 	}
