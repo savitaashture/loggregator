@@ -1,6 +1,10 @@
 set -e -x
 
-export GOROOT=$(readlink -nf /var/vcap/packages/golang1.3)
+ls -l /var/vcap/packages
+ls -l /var/vcap/packages/go1.3
+
+
+export GOROOT=$(readlink -nf /var/vcap/packages/go1.3)
 export PATH=$GOROOT/bin:$PATH
 export GOPATH=$PWD/loggregator
 

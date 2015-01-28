@@ -1,7 +1,7 @@
 ---
 name: metron_agent
 dependencies:
-- golang1.3
+- go1.3
 files:
 - loggregator/src/metron/syslog_daemon_config/*
 - loggregator/src/metron/*.go # gosub

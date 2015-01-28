@@ -1,7 +1,7 @@
 ---
 name: doppler
 dependencies:
-- golang1.3
+- go1.3
 files:
 - loggregator/src/doppler/*.go # gosub
 - loggregator/src/doppler/buffer/*.go # gosub
