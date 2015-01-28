@@ -4,13 +4,9 @@ RUN_DIR=/var/vcap/sys/run/loggregator_trafficcontroller
 LOG_DIR=/var/vcap/sys/log/loggregator_trafficcontroller
 PIDFILE=$RUN_DIR/loggregator_trafficcontroller.pid
 
-source /var/vcap/packages/common/utils.sh
-
 case $1 in
 
   start)
-    pid_guard $PIDFILE "LoggregatorTrafficController"
-
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 

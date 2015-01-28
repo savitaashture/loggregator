@@ -4,13 +4,9 @@ RUN_DIR=/var/vcap/sys/run/doppler
 LOG_DIR=/var/vcap/sys/log/doppler
 PIDFILE=$RUN_DIR/doppler.pid
 
-source /var/vcap/packages/common/utils.sh
-
 case $1 in
 
   start)
-    pid_guard $PIDFILE "Loggregator"
-
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 

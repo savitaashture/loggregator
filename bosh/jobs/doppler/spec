@@ -5,7 +5,6 @@ templates:
   doppler.json.erb: config/doppler.json
 
 packages:
-- common
 - doppler
 
 properties:

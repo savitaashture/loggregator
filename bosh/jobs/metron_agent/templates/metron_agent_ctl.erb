@@ -4,13 +4,9 @@ RUN_DIR=/var/vcap/sys/run/metron_agent
 LOG_DIR=/var/vcap/sys/log/metron_agent
 PIDFILE=$RUN_DIR/metron_agent.pid
 
-source /var/vcap/packages/common/utils.sh
-
 case $1 in
 
   start)
-    pid_guard $PIDFILE "MetronAgent"
-
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
