@@ -2,7 +2,7 @@ lamb_meta:
   release:
     name: cf
 
-  loggregator_templates:
+  doppler_templates:
   - name: doppler
     release: (( lamb_meta.release.name ))
   - name: syslog_drain_binder
@@ -17,14 +17,14 @@ lamb_meta:
     release: (( lamb_meta.release.name ))
 
 jobs:
-- name: loggregator_z1
+- name: doppler_z1
   properties:
     doppler:
       zone: z1
     metron_agent:
       zone: z1
 
-- name: loggregator_z2
+- name: doppler_z2
   properties:
     doppler:
       zone: z2
@@ -47,11 +47,6 @@ jobs:
 
 properties:
   <<: (( merge ))
-
-  loggregator:
-    maxRetainedLogMessages: 100
-    debug: (( merge || false ))
-    blacklisted_syslog_ranges: ~
 
   doppler:
     maxRetainedLogMessages: 100

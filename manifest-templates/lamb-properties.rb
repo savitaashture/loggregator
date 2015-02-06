@@ -3,7 +3,7 @@ class LambProperties
     @infrastructure = infrastructure
   end
 
-  def loggregator_z1_properties
+  def doppler_z1_properties
     result = <<-EOF
     metron_agent:
       zone: z1
@@ -13,7 +13,7 @@ class LambProperties
     result.chomp
   end
 
-  def loggregator_z2_properties
+  def doppler_z2_properties
     result = <<-EOF
     metron_agent:
       zone: z2
@@ -43,7 +43,7 @@ class LambProperties
     result.chomp
   end
 
-  def loggregator_templates
+  def doppler_templates
     result = <<-EOF
     - name: doppler
       release: cf
@@ -67,7 +67,7 @@ class LambProperties
 
   def aws_lamb_properties
     result = <<-EOF
-  loggregator:
+  doppler:
     maxRetainedLogMessages: 100
     debug: false
     blacklisted_syslog_ranges:
@@ -86,11 +86,6 @@ class LambProperties
     return aws_lamb_properties if @infrastructure == 'aws'
 
     result = <<-EOF
-  loggregator:
-    maxRetainedLogMessages: 100
-    debug: false
-    blacklisted_syslog_ranges: null
-
   doppler:
     maxRetainedLogMessages: 100
     debug: false
