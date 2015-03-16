@@ -264,8 +264,8 @@ Please run `bin/install-git-hooks` before committing for the first time. The pre
 
 Install go vet and go cover
 
-    go get code.google.com/p/go.tools/cmd/vet
-    go get code.google.com/p/go.tools/cmd/cover
+    go get golang.org/x/tools/cmd/vet
+    go get golang.org/x/tools/cmd/cover
 
 
 Install gosub
